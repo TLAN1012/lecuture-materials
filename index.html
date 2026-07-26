@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 實作：症狀 → SOAP｜AI 領航 · 基層實戰</title>
+<style>
+  :root {
+    --bg: #f6f8fa;
+    --card: #ffffff;
+    --text: #1f2933;
+    --muted: #5b6b7b;
+    --accent: #0e7490;
+    --accent-soft: #e0f2f7;
+    --warn-bg: #fff7ed;
+    --warn-border: #f59e0b;
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+    --border: #e2e8f0;
+    --step2-bg: #eef6ee;
+    --step2-accent: #2c7a3f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #22d3ee;
+      --accent-soft: #164e63;
+      --warn-bg: #451a03;
+      --warn-border: #f59e0b;
+      --code-bg: #020617;
+      --code-text: #e2e8f0;
+      --border: #334155;
+      --step2-bg: #14301c;
+      --step2-accent: #6fcf8b;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 14px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  header { text-align: center; padding: 20px 8px 10px; }
+  header h1 { font-size: 1.45rem; margin-bottom: 6px; }
+  header p { color: var(--muted); font-size: 0.92rem; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin: 14px 0;
+  }
+  .step-badge {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+    border-radius: 999px;
+    padding: 2px 14px;
+    margin-bottom: 6px;
+  }
+  h2 { font-size: 1.2rem; margin-bottom: 8px; }
+  h3 { font-size: 1rem; margin: 14px 0 6px; }
+  ol, ul { padding-left: 1.4em; margin: 6px 0; }
+  li { margin: 5px 0; }
+  .warn {
+    background: var(--warn-bg);
+    border-left: 4px solid var(--warn-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 14px 0;
+    font-size: 0.92rem;
+  }
+  .prompt-box { position: relative; margin: 10px 0 4px; }
+  .prompt-box pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    border-radius: 12px;
+    padding: 16px;
+    padding-bottom: 60px;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  }
+  .copy-btn {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 0;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .copy-btn:active { opacity: 0.75; }
+  .copy-btn.copied { background: #16a34a; }
+  .muted { color: var(--muted); font-size: 0.9rem; }
+  .small-note { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+  .stage2 {
+    background: var(--step2-bg);
+    border: 1px dashed var(--step2-accent);
+  }
+  .stage2 .step-badge { background: transparent; color: var(--step2-accent); border: 1px solid var(--step2-accent); }
+  details {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 10px 0;
+  }
+  summary { cursor: pointer; font-weight: 700; font-size: 0.95rem; }
+  footer { text-align: center; color: var(--muted); font-size: 0.83rem; padding: 22px 0 12px; }
+  .watch-list { font-size: 0.95rem; }
+  .watch-list strong { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🩺 親手做一次：症狀 → SOAP</h1>
+  <p>AI 領航 · 基層實戰｜實作素材頁</p>
+  <p class="muted">手機、平板、筆電都可以</p>
+</header>
+
+<!-- ===================== 準備 ===================== -->
+<div class="card">
+  <h2>🔧 開始前 60 秒</h2>
+  <ol>
+    <li>打開 <strong>ChatGPT</strong>（或 Claude、Gemini，任一個都可以）並登入</li>
+    <li>院內 WiFi 若連不上，請改用<strong>行動網路</strong></li>
+    <li>開一個<strong>全新的對話</strong></li>
+    <li>接下來三步：每一步都是「按複製 → 貼到 AI → 送出」</li>
+  </ol>
+</div>
+
+<!-- ===================== Prompt 1 ===================== -->
+<div class="card">
+  <span class="step-badge">第 1 步 · 建立功能</span>
+  <h2>告訴 AI 它要做什麼</h2>
+  <p class="muted">先把任務和輸出格式「綁住」，AI 才不會自由發揮。</p>
+  <div class="prompt-box">
+    <pre id="p1">我們要做一個輸入片段的症狀與觀察後輸出標準 SOAP 英文病歷的功能，當我輸入病史、症狀、檢查結果後，你負責分段輸出 S: O: A: P: 這樣的結構化英文病歷</pre>
+    <button class="copy-btn" onclick="copyPrompt(this, 'p1')">📋 複製第 1 步</button>
+  </div>
+  <p class="small-note">貼上送出後，AI 會回覆說明它準備好了，接著進行第 2 步。</p>
+</div>
+
+<!-- ===================== Prompt 2 ===================== -->
+<div class="card">
+  <span class="step-badge">第 2 步 · 丟入案例</span>
+  <h2>貼上零碎的病人資訊</h2>
+  <p class="muted">想到什麼寫什麼、不用排版 —— 這就是診間口述的真實樣子。</p>
+  <div class="prompt-box">
+    <pre id="p2">75F, 頭痛五天, 之前無病史, 有高血壓, 無眼睛症狀, 會想吐 畏光 像動脈一樣的脈動感, 不會自己好, 吃普拿疼會好一點但沒有全部好</pre>
+    <button class="copy-btn" onclick="copyPrompt(this, 'p2')">📋 複製第 2 步</button>
+  </div>
+  <p class="small-note">送出後看看：AI 是不是自動長出了一份完整的英文 SOAP？</p>
+</div>
+
+<!-- ===================== Prompt 3 ===================== -->
+<div class="card">
+  <span class="step-badge">第 3 步 · 修改輸出</span>
+  <h2>不滿意？直接跟它談</h2>
+  <p class="muted">不用重來，用自然語言修改它的輸出規則 —— 這就是「調教」。</p>
+  <div class="prompt-box">
+    <pre id="p3">我們來修改一下，首先這要簡化為一般門診或急診用的簡寫 S: O: A: P: 即可，我希望你的 S: 的部分寫成段落而不是單句，O: 的部分只寫出有做的部分，A: 的部分給我實際的 ICD-10，懷疑的疾病也可以寫，P: 的部分僅列出嚴重需要排除的狀況</pre>
+    <button class="copy-btn" onclick="copyPrompt(this, 'p3')">📋 複製第 3 步</button>
+  </div>
+  <p class="small-note">比較修改前後的差異 —— 輸出格式被你「綁」得更緊了。</p>
+</div>
+
+<!-- ===================== 觀察重點 ===================== -->
+<div class="card">
+  <h2>👀 做完後，檢查這四件事</h2>
+  <ul class="watch-list">
+    <li><strong>它有沒有補上你沒講的病史？</strong>（憑空補全）</li>
+    <li><strong>「疑似」有沒有被寫成「診斷為」？</strong>（語氣升級）</li>
+    <li><strong>O: 裡有沒有出現你根本沒做的檢查？</strong>（過度推論）</li>
+    <li><strong>ICD-10 碼是對的嗎？</strong>（引用幻覺 —— 查證再用）</li>
+  </ul>
+  <p class="small-note" style="margin-top:10px">第一課教的不是工具，是懷疑。先學會約束它，再談交給它做什麼。</p>
+</div>
+
+<!-- ===================== 加碼 ===================== -->
+<details>
+  <summary>⚡ 還有時間？加碼兩招</summary>
+  <h3>抓它的包：讓 AI 自首</h3>
+  <div class="prompt-box">
+    <pre id="p4">請檢查你剛剛輸出的病歷：哪些內容是我沒有提供、而是你自行推論或補上的？請逐條列出。</pre>
+    <button class="copy-btn" onclick="copyPrompt(this, 'p4')">📋 複製</button>
+  </div>
+  <h3>換你自己的案例</h3>
+  <p class="muted">用一個<strong>虛構</strong>或<strong>完全去識別化</strong>的案例（不要有姓名、病歷號、身分證字號、生日），照第 2 步的方式丟進去試試。</p>
+</details>
+
+<!-- ===================== 階段二預告 ===================== -->
+<div class="card stage2">
+  <span class="step-badge">第二階段</span>
+  <h2>雲端病歷截圖 → 一頁病人圖像</h2>
+  <p class="muted">素材（四張模擬雲端截圖：藥物、檢驗、出院摘要）與指令即將上線，課程現場一起做。</p>
+  <p class="small-note">頁面上的截圖全部為<strong>虛構模擬資料</strong>，不是真實病人。</p>
+</div>
+
+<!-- ===================== 提醒 ===================== -->
+<div class="warn">
+  <strong>⚠ 回去用在真實病人前，記得三件事</strong><br>
+  ① 貼給 AI 的資料必須<strong>去識別化</strong>（姓名、身分證字號、病歷號、生日都不能有）
+  ② AI 出草稿，<strong>醫師定稿</strong> —— 每個字都要經過你的眼睛才能進病歷
+  ③ 請遵守貴院規範與衛福部《醫療機構應用生成式人工智慧指引》
+</div>
+
+<footer>
+  健康台灣深耕計畫 專題演講「AI 領航 · 基層實戰」實作素材<br>
+  藍聖星 醫師｜聖星診所 · 本頁案例皆為虛構，僅供教學練習
+</footer>
+
+<script>
+function copyPrompt(btn, id) {
+  var text = document.getElementById(id).innerText;
+  function done() {
+    var old = btn.textContent;
+    btn.classList.add('copied');
+    btn.textContent = '✓ 已複製，回到 AI 貼上';
+    setTimeout(function () {
+      btn.classList.remove('copied');
+      btn.textContent = old;
+    }, 2000);
+  }
+  function fallback() {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    done();
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(fallback);
+  } else {
+    fallback();
+  }
+}
+</script>
+
+</body>
+</html>
