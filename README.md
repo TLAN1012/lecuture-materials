@@ -13,6 +13,7 @@ things for my lectures
 2. GitHub repo → Settings → Pages → Source 選 **Deploy from a branch**，Branch 選 `main` / `(root)`，儲存
 3. 等 1–2 分鐘後用手機掃 QR code 確認 <https://tlan1012.github.io/lecuture-materials/> 打得開
 
-### 之後要補的
+### 素材說明
 
-- 階段二素材：四張虛構模擬雲端截圖（藥物、檢驗、出院摘要）+ 對應 prompt，放上 `index.html` 的第二階段區塊
+- `assets/cloud-1.png` ~ `cloud-5.png`：第二階段的五張健保雲端截圖（已去識別化、醫療院所來源已遮蔽）
+- `assets/cloud-all.png`：五張直向合併的整合大圖（備用；AI 讀長圖可能失真，建議優先用個別圖）
