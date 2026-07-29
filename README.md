@@ -15,5 +15,6 @@ things for my lectures
 
 ### 素材說明
 
-- `assets/cloud-1.png` ~ `cloud-5.png`：第二階段的五張健保雲端截圖（已去識別化、醫療院所來源已遮蔽）
-- `assets/cloud-all.png`：五張直向合併的整合大圖（備用；AI 讀長圖可能失真，建議優先用個別圖）
+- `assets/cloud-exercise.pdf`：第二階段主要素材——第 1 頁為指令、第 2–6 頁為五張健保雲端截圖
+- `assets/cloud-1.png` ~ `cloud-5.png`：五張截圖個別檔（備用；已去識別化、醫療院所來源已遮蔽）
+- `assets/cloud-all.png`：五張直向合併的整合大圖（備用；AI 讀長圖可能失真）
