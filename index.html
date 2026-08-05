@@ -19,6 +19,8 @@
     --border: #e2e8f0;
     --step2-bg: #eef6ee;
     --step2-accent: #2c7a3f;
+    --step3-bg: #f3eefa;
+    --step3-accent: #6d4fa3;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -35,6 +37,8 @@
       --border: #334155;
       --step2-bg: #14301c;
       --step2-accent: #6fcf8b;
+      --step3-bg: #2a1f3d;
+      --step3-accent: #b79df0;
     }
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -116,6 +120,11 @@
     border: 1px dashed var(--step2-accent);
   }
   .stage2 .step-badge { background: transparent; color: var(--step2-accent); border: 1px solid var(--step2-accent); }
+  .stage3 {
+    background: var(--step3-bg);
+    border: 1px dashed var(--step3-accent);
+  }
+  .stage3 .step-badge { background: transparent; color: var(--step3-accent); border: 1px solid var(--step3-accent); }
   details {
     border: 1px solid var(--border);
     border-radius: 10px;
@@ -306,6 +315,47 @@
     <li><strong>憑空補全</strong>：把缺漏的欄位「合理地」填滿</li>
     <li><strong>語氣升級</strong>：不確定的觀察寫成肯定的結論</li>
     <li><strong>引用幻覺</strong>：編出看似正確的指引或劑量依據</li>
+  </ul>
+</div>
+
+<!-- ===================== 第三階段 ===================== -->
+<div class="card stage3">
+  <span class="step-badge">第三階段</span>
+  <h2>一句話，生出一張衛教單</h2>
+  <p class="muted">輸入「年齡、性別、疾病、衛教方向」四個要素，AI 產出可直接列印的一頁衛教稿。</p>
+</div>
+
+<div class="card">
+  <span class="step-badge">第 1 步 · 建立功能</span>
+  <h2>告訴 AI 衛教稿長什麼樣</h2>
+  <p class="muted">開一個新的對話，把規格一次講清楚：對象、結構、語氣、長度。</p>
+  <div class="prompt-box">
+    <pre id="p6">當我輸入年齡、性別、疾病與衛教方向時，請產生一份可直接列印的一般民眾衛教稿，依年齡與性別調整用詞，包含醒目的衛教主題、簡短疾病說明、具體可行建議、日常注意事項及何時應回診或就醫；文字須簡潔易懂、分段清楚，避免艱深術語、過度推論與冗長內容，並控制在一頁 A4 內。</pre>
+    <button class="copy-btn" onclick="copyPrompt(this, 'p6')">📋 複製第 1 步</button>
+  </div>
+</div>
+
+<div class="card">
+  <span class="step-badge">第 2 步 · 試一個案例</span>
+  <h2>四個要素，一行搞定</h2>
+  <div class="prompt-box">
+    <pre id="p7">48M, 糖尿神經病變，日常注意事項</pre>
+    <button class="copy-btn" onclick="copyPrompt(this, 'p7')">📋 複製第 2 步</button>
+  </div>
+  <p class="small-note">送出後看看：用詞有沒有為 48 歲男性調整？內容有沒有超出「日常注意事項」的範圍？</p>
+</div>
+
+<div class="card">
+  <span class="step-badge">第 3 步 · 換你的病人</span>
+  <h2>照同樣格式輸入</h2>
+  <p>格式：<strong>年齡性別, 疾病, 衛教方向</strong>（例：80F, 骨質疏鬆, 居家防跌）</p>
+  <h3>⚡ 加碼一招</h3>
+  <p class="muted">同一個疾病，改成 <strong>80F</strong> 再跑一次，比較兩份的用詞與建議差在哪——「依年齡與性別調整」是不是真的有發生。</p>
+  <h3>👀 列印發給病人前，檢查三件事</h3>
+  <ul class="watch-list">
+    <li><strong>建議安全嗎？</strong>有沒有它自己加上的藥物、劑量或民俗偏方？</li>
+    <li><strong>有沒有超綱？</strong>你只要日常注意事項，它是不是順手寫了診斷和治療？</li>
+    <li><strong>醫師逐字審過</strong>才能印出來交給病人——衛教單也是醫療文件。</li>
   </ul>
 </div>
 
