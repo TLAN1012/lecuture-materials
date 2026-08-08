@@ -135,49 +135,6 @@
   footer { text-align: center; color: var(--muted); font-size: 0.83rem; padding: 22px 0 12px; }
   .watch-list { font-size: 0.95rem; }
   .watch-list strong { color: var(--accent); }
-  .btn-row { margin: 10px 0 4px; }
-  .action-btn {
-    display: block;
-    width: 100%;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 13px 0;
-    font-size: 1rem;
-    cursor: pointer;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-  }
-  .action-btn:active { opacity: 0.75; }
-  a.action-btn { text-align: center; text-decoration: none; }
-  .action-btn.copied { background: #16a34a; }
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-    margin: 10px 0 4px;
-  }
-  .gallery a {
-    position: relative;
-    display: block;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    aspect-ratio: 3 / 4;
-  }
-  .gallery img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-  .gallery span {
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
-    background: rgba(15, 23, 42, 0.75);
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    border-radius: 6px;
-    padding: 0 6px;
-  }
 </style>
 </head>
 <body>
@@ -263,56 +220,18 @@
 <div class="card stage2">
   <span class="step-badge">第二階段</span>
   <h2>雲端病歷截圖 → 一頁病人圖像</h2>
-  <p class="muted">把五張健保雲端截圖（用藥、檢驗、B/C 肝專區）交給 AI，整合成一頁病人整體圖像。</p>
-  <p class="small-note">截圖已去識別化、醫療院所來源已遮蔽，僅供課程教學使用。</p>
+  <p class="muted">把健保雲端截圖（用藥、檢驗等頁面）上傳給 AI，加上下面的指令，整合成一頁病人整體圖像。</p>
+  <p class="small-note">⚠ 截圖上傳前務必<strong>去識別化</strong>：遮蓋姓名、身分證字號、病歷號等個資。</p>
 </div>
 
 <div class="card">
-  <span class="step-badge">第 1 步 · 取得截圖</span>
-  <h2>把五張截圖存到你的裝置</h2>
-  <div class="btn-row">
-    <button class="action-btn" onclick="shareImages(this)">📤 一鍵取得五張圖</button>
-  </div>
-  <p class="small-note">按下後選「<strong>儲存影像</strong>」存進相簿，或直接分享到 ChatGPT App。</p>
-  <details>
-    <summary>其他方式（上面按鈕沒反應時）</summary>
-    <p class="small-note"><strong>長按下方縮圖</strong>逐張儲存：</p>
-    <div class="gallery">
-      <a href="assets/cloud-1.png" target="_blank"><img src="assets/cloud-1.png" loading="lazy" alt="截圖1 B/C肝專區"><span>1</span></a>
-      <a href="assets/cloud-2.png" target="_blank"><img src="assets/cloud-2.png" loading="lazy" alt="截圖2 檢驗(續)"><span>2</span></a>
-      <a href="assets/cloud-3.png" target="_blank"><img src="assets/cloud-3.png" loading="lazy" alt="截圖3 檢驗檢查結果"><span>3</span></a>
-      <a href="assets/cloud-4.png" target="_blank"><img src="assets/cloud-4.png" loading="lazy" alt="截圖4 用藥(續)"><span>4</span></a>
-      <a href="assets/cloud-5.png" target="_blank"><img src="assets/cloud-5.png" loading="lazy" alt="截圖5 西醫用藥"><span>5</span></a>
-    </div>
-  </details>
-</div>
-
-<div class="card">
-  <span class="step-badge">第 2 步 · 複製指令</span>
-  <h2>彙整指令</h2>
+  <span class="step-badge">彙整指令</span>
+  <h2>截圖 + 指令，一起送出</h2>
   <div class="prompt-box">
     <pre id="p5">請幫我彙整這些已經去識別化的健康資料，分為初步印象、目前用藥、目前檢驗數值與特別注意用藥禁忌四部分，用藥要考慮是否為慢性病長期藥物，檢驗如果有前後次紀錄要列表分析。只對資料部分進行解讀，不要過度推論。注意領藥不一定會有吃，檢驗可能有很多因素影響，不要做單一推論。無法辨識不要猜。</pre>
     <button class="copy-btn" onclick="copyPrompt(this, 'p5')">📋 複製彙整指令</button>
   </div>
-</div>
-
-<div class="card">
-  <span class="step-badge">第 3 步 · 上傳送出</span>
-  <h2>圖 + 指令，一起送出</h2>
-  <ol>
-    <li>回到 ChatGPT，開<strong>新的對話</strong></li>
-    <li>按「＋」→ 選照片 → <strong>一次選取五張截圖</strong></li>
-    <li>在文字框<strong>貼上剛剛複製的指令</strong>，送出</li>
-    <li>等 AI 輸出一頁病人整體圖像</li>
-  </ol>
-  <h3>👀 看完輸出，問自己一個問題</h3>
-  <p><strong>它有沒有講出一件你沒給它的事？</strong></p>
-  <ul class="watch-list">
-    <li><strong>過度推論</strong>：從幾個數字推出你沒問的診斷</li>
-    <li><strong>憑空補全</strong>：把缺漏的欄位「合理地」填滿</li>
-    <li><strong>語氣升級</strong>：不確定的觀察寫成肯定的結論</li>
-    <li><strong>引用幻覺</strong>：編出看似正確的指引或劑量依據</li>
-  </ul>
+  <p class="small-note">看完輸出，問自己一個問題：<strong>它有沒有講出一件你沒給它的事？</strong></p>
 </div>
 
 <!-- ===================== 第三階段 ===================== -->
@@ -400,60 +319,6 @@ function copyPrompt(btn, id) {
   }
 }
 
-var CLOUD_URLS = ['assets/cloud-1.png', 'assets/cloud-2.png', 'assets/cloud-3.png', 'assets/cloud-4.png', 'assets/cloud-5.png'];
-// 進頁面就先預載五張圖，按分享時才能維持使用者手勢授權
-var cloudFilesPromise = null;
-function prefetchCloudFiles() {
-  if (!cloudFilesPromise) {
-    cloudFilesPromise = Promise.all(CLOUD_URLS.map(function (u, i) {
-      return fetch(u).then(function (r) { return r.blob(); }).then(function (b) {
-        return new File([b], '雲端截圖-' + (i + 1) + '.png', { type: 'image/png' });
-      });
-    }));
-  }
-  return cloudFilesPromise;
-}
-window.addEventListener('load', prefetchCloudFiles);
-
-function shareImages(btn) {
-  var old = btn.textContent;
-  btn.textContent = '⏳ 準備中…';
-  prefetchCloudFiles().then(function (files) {
-    if (navigator.canShare && navigator.canShare({ files: files })) {
-      return navigator.share({ files: files }).then(function () {
-        btn.classList.add('copied');
-        btn.textContent = '✓ 完成';
-        setTimeout(function () { btn.classList.remove('copied'); btn.textContent = old; }, 2500);
-      });
-    }
-    throw new Error('unsupported');
-  }).catch(function (e) {
-    btn.textContent = old;
-    if (e && e.name === 'AbortError') return; // 使用者自己取消，不提示
-    alert('這個瀏覽器不支援一鍵分享，請改用下方「其他方式」：長按縮圖逐張儲存。');
-  });
-}
-
-function copyBigImage(btn) {
-  var old = btn.textContent;
-  btn.textContent = '⏳ 複製中…';
-  try {
-    var item = new ClipboardItem({
-      'image/png': fetch('assets/cloud-all.png').then(function (r) { return r.blob(); })
-    });
-    navigator.clipboard.write([item]).then(function () {
-      btn.classList.add('copied');
-      btn.textContent = '✓ 已複製，到 AI 對話框貼上';
-      setTimeout(function () { btn.classList.remove('copied'); btn.textContent = old; }, 2500);
-    }).catch(function () {
-      btn.textContent = old;
-      window.open('assets/cloud-all.png', '_blank');
-    });
-  } catch (e) {
-    btn.textContent = old;
-    window.open('assets/cloud-all.png', '_blank');
-  }
-}
 </script>
 
 </body>

@@ -15,6 +15,4 @@ things for my lectures
 
 ### 素材說明
 
-- `assets/cloud-1.png` ~ `cloud-5.png`：第二階段的五張健保雲端截圖（已去識別化、醫療院所來源已遮蔽）
-- `assets/cloud-all.png`：五張直向合併的整合大圖（備用；AI 讀長圖可能失真）
-- 註：曾有 `assets/cloud-exercise.pdf`（指令＋截圖合一）版本，暫時下架，需要時可重新加回
+- 第二階段目前只放彙整指令，截圖素材（cloud-1~5.png、cloud-all.png、cloud-exercise.pdf）已下架，需要時可重新加回
