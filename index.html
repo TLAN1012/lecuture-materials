@@ -268,18 +268,15 @@
 </div>
 
 <div class="card">
-  <span class="step-badge">第 1 步 · 下載 PDF</span>
-  <h2>一個檔案，全部搞定</h2>
+  <span class="step-badge">第 1 步 · 取得截圖</span>
+  <h2>把五張截圖存到你的裝置</h2>
   <div class="btn-row">
-    <a class="action-btn" href="assets/cloud-exercise.pdf" target="_blank">⬇ 下載實作 PDF（指令＋五張截圖）</a>
+    <button class="action-btn" onclick="shareImages(this)">📤 一鍵取得五張圖</button>
   </div>
-  <p class="small-note">PDF 打開後按「分享」→ 傳到 ChatGPT App，或存到「檔案」再從對話框附加。<br><strong>第 1 頁就是指令</strong>——來不及複製指令時，直接上傳整份 PDF 也能跑。<br>若 AI 反問你要做什麼，回覆「<strong>執行第一頁的指令</strong>」即可。</p>
+  <p class="small-note">按下後選「<strong>儲存影像</strong>」存進相簿，或直接分享到 ChatGPT App。</p>
   <details>
-    <summary>備用方式：改用五張個別圖片</summary>
-    <div class="btn-row">
-      <button class="action-btn" onclick="shareImages(this)">📤 一鍵取得五張圖</button>
-    </div>
-    <p class="small-note">按下後選「<strong>儲存影像</strong>」存進相簿，或直接分享到 ChatGPT App。也可以<strong>長按縮圖</strong>逐張儲存：</p>
+    <summary>其他方式（上面按鈕沒反應時）</summary>
+    <p class="small-note"><strong>長按下方縮圖</strong>逐張儲存：</p>
     <div class="gallery">
       <a href="assets/cloud-1.png" target="_blank"><img src="assets/cloud-1.png" loading="lazy" alt="截圖1 B/C肝專區"><span>1</span></a>
       <a href="assets/cloud-2.png" target="_blank"><img src="assets/cloud-2.png" loading="lazy" alt="截圖2 檢驗(續)"><span>2</span></a>
@@ -301,10 +298,10 @@
 
 <div class="card">
   <span class="step-badge">第 3 步 · 上傳送出</span>
-  <h2>PDF + 指令，一起送出</h2>
+  <h2>圖 + 指令，一起送出</h2>
   <ol>
     <li>回到 ChatGPT，開<strong>新的對話</strong></li>
-    <li>按「＋」→ 附加檔案 → 選<strong>剛剛下載的 PDF</strong></li>
+    <li>按「＋」→ 選照片 → <strong>一次選取五張截圖</strong></li>
     <li>在文字框<strong>貼上剛剛複製的指令</strong>，送出</li>
     <li>等 AI 輸出一頁病人整體圖像</li>
   </ol>
